@@ -8,6 +8,16 @@ const getAllContacts = (req, res) => {
   });
 };
 
+//@desc   Get single contact by ID
+//@route  GET /api/contacts/:id
+//@access Public
+const getContact = (req, res) => {
+  const { id } = req.params;
+  res.status(200).json({
+    success: true,
+    message: `Get contact with id ${id}`,
+  });
+};
 //@desc   Create new contact
 //@route  POST /api/contacts
 //@access Public
@@ -42,6 +52,7 @@ const deleteContact = (req, res) => {
 
 module.exports = {
   getAllContacts,
+  getContact,
   createContact,
   updateContact,
   deleteContact,
