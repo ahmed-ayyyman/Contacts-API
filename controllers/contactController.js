@@ -31,6 +31,10 @@ const getContactById = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error("Contact not found");
     }
+    if (contact.user_id.toString() !== req.user._id.toString()) {
+        res.status(403);
+        throw new Error("Not authorized to access this contact");
+    }
     res.status(200).json(contact);
 })
 
@@ -48,7 +52,10 @@ const updateContact = asyncHandler(async (req, res) => {
         new: true,
         runValidators: true,
     });
-
+    if (contact.user_id.toString() !== req.user._id.toString()) {
+        res.status(403);
+        throw new Error("Not authorized to access this contact");
+    }
     res.status(200).json(updated);
 })
 
@@ -63,6 +70,10 @@ const deleteContact = asyncHandler(async (req, res) => {
     }
 
     await Contact.deleteOne({ _id: req.params.id });
+    if (contact.user_id.toString() !== req.user._id.toString()) {
+        res.status(403);
+        throw new Error("Not authorized to access this contact");
+    }
     res.status(200).json({ message: "Contact deleted", id: req.params.id });
 })
 
